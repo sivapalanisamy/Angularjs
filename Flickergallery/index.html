@@ -1,0 +1,55 @@
+<!DOCTYPE html >
+<html ng-app='flickrGallery'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<title>Flickr Image Gallery</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body ng-controller="FlickController" >
+<div class="container">	
+	<!-- Header -->
+	<div class="header" ng-init="search()">
+		<h1 class="pull-left">Search Team : {{searchTerm}}</h1>
+		<form class="navbar-search pull-right"  ng-submit="search()">
+			<input type="text" class="search-query"  placeholder="Search" ng-model="searchTerm" >
+		</form>
+	</div>
+	<!-- Flickr Gallery -->
+	<div class="slider">
+		<ul>
+			<li ng-repeat="item in imageList.photos.photo" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)">
+				<img  ng-src="https://farm{{item.farm}}.staticflickr.com/{{item.server}}/{{item.id}}_{{item.secret}}_b.jpg" />
+			</li>
+		</ul>
+		<!-- prev / next controls -->
+		<a class="arrow prev" href="#" ng-click="showPrev()"></a>
+		<a class="arrow next" href="#" ng-click="showNext()"></a>
+	</div>
+	<!-- Gallery Pagination -->
+	<div class="pagination" >
+		<ul class="nav">
+			<li ng-repeat="item in imageList.photos.photo" ng-class="{'active':isActive($index)}" >
+				<img ng-src="https://farm{{item.farm}}.staticflickr.com/{{item.server}}/{{item.id}}_{{item.secret}}_m.jpg" alt="{{photo.tags}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+			</li>
+		</ul>
+		<div class="count">
+			 <a ng-click="prevPage()" ng-if="page > 1" href="#prev" class="pull-left">Previous</a>
+			 <!--<span>{{page}}</span>-->
+			<a ng-click="nextPage()" href="#next" class="pull-right">Next</a>
+		</div>
+	</div>
+</div>
+
+<script src="lib/angular.min.js" type="text/javascript"></script>
+<script src="lib/angular-route.min.js" type="text/javascript"></script>
+<script src="lib/angular-animate.min.js" type="text/javascript"></script>
+<script src="lib/angular-touch.min.js" type="text/javascript"></script>
+<script src="app/app.js" type="text/javascript"></script>
+<script src="app/services.js" type="text/javascript"></script>
+<script src="app/controller.js" type="text/javascript"></script>
+<script src="app/filters.js" type="text/javascript"></script>
+
+</body>
+</html>
